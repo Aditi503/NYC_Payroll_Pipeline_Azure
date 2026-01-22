@@ -1,0 +1,50 @@
+{
+	"name": "nyctitlemd",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "gen2_titlemaster",
+						"type": "DatasetReference"
+					},
+					"name": "Gen2title"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "sql_titlemd",
+						"type": "DatasetReference"
+					},
+					"name": "Sqltitle"
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          TitleCode as string,",
+				"          TitleDescription as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> Gen2title",
+				"Gen2title sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          TitleCode as string,",
+				"          TitleDescription as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> Sqltitle"
+			]
+		}
+	}
+}
