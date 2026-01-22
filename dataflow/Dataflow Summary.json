@@ -127,6 +127,7 @@
 				"     errorHandlingOption: 'stopOnFirstError') ~> sinksummarysql",
 				"aggregatesumTotalPaid sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     partitionFileNames:['nyc_payroll_summary'],",
 				"     truncate: true,",
 				"     umask: 0022,",
 				"     preCommands: [],",
